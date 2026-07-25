@@ -65,32 +65,35 @@ public class Main {
     }
 
     private static void addCourse(Scanner sc, Student student) {
-        System.out.print("Course name: ");
-        String name = sc.nextLine();
-        System.out.print("Subject (e.g. Math, Physics): ");
-        String subject = sc.nextLine();
+    String name = InputValidator.readNonEmptyString(sc, "Course name: ");
+    String subject = InputValidator.readNonEmptyString(sc, "Subject (e.g. Math, Physics): ");
 
-        System.out.print("Credits: ");
-        int credits;
+    int credits = -1;
+    while (true) {
+        System.out.print("Credits (0-5): ");
         try {
             credits = Integer.parseInt(sc.nextLine().trim());
+            if (InputValidator.isValidCredits(credits)) {
+                break;
+            } else {
+                System.out.println("Error: Credits must be between 0 and 5.");
+            }
         } catch (NumberFormatException e) {
-            System.out.println("Credits must be a number.");
-            return;
+            System.out.println("Error: Please enter a valid whole number for credits.");
         }
-        if (!InputValidator.isValidCredits(credits)) {
-            System.out.println("Credits must be greater than 0.");
-            return;
-        }
+    }
 
-        System.out.print("Grade (A-F): ");
-        String grade = sc.nextLine().trim().toUpperCase();
-        if (!InputValidator.isValidGrade(grade)) {
-            System.out.println("Grade must be A, B, C, D, or F.");
-            return;
+    String grade = "";
+    while (true) {
+        System.out.print("Grade (A, B, C, D, F): ");
+        grade = sc.nextLine().trim().toUpperCase();
+        if (InputValidator.isValidGrade(grade)) {
+            break;
         }
+        System.out.println("Error: Invalid grade. Please enter A, B, C, D, or F.");
+    }
 
-        student.addCourse(new Course(name, subject, credits, grade));
-        System.out.println("Course added!");
+    student.addCourse(new Course(name, subject, credits, grade));
+    System.out.println("Course successfully added!");
     }
 }
