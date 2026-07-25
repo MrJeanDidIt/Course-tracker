@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.Scanner; 
 
 /**
  * Handles input parsing, range validation, and crash-proof data entry
